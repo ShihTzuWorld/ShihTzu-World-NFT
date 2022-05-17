@@ -2,7 +2,7 @@
 
 
 import { FunctionComponent } from "react"
-import { NftMetaData } from "../../../types/nft"
+import { NftMetaData } from "../../../../types/nft"
 
 type NftItemProps = {
     item: NftMetaData;
