@@ -1,10 +1,13 @@
-import { useState, useContext, FunctionComponent, createContext } from "react";
+import { useState, useContext, FunctionComponent, createContext, ReactNode } from "react";
 import { Web3State, createDefaultState } from "./utils";
 
+interface BaseLayoutProps {
+    children?: ReactNode;
+}
 
 const Web3Context = createContext<Web3State>(createDefaultState());
 
-const Web3Provider: FunctionComponent = ({ children }) => {
+const Web3Provider: FunctionComponent<BaseLayoutProps> = ({ children }) => {
 
     const [web3Api, setWbe3Api] = useState<Web3State>(createDefaultState())
 
