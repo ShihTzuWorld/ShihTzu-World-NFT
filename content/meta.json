@@ -1,25 +1,25 @@
 [{
-    "description": "Fierce violet creature. Very durable and tanky.",
-    "image": "https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png",
-    "name": "Eincode Creature #1",
+    "description": "Friendly but fierce.",
+    "image": "https://i.ibb.co/s6bDd5r/dog-g9f1f0e1e9-1280.png",
+    "name": "Doggo #1",
     "attributes": [
       {
         "trait_type": "attack",
-        "value": "20"
+        "value": "60"
       },
       {
         "trait_type": "health",
-        "value": "100"
+        "value": "50"
       },
       {
         "trait_type": "speed",
-        "value": "30"
+        "value": "80"
       }
     ]
   },{
-    "description": "Fierce blueish creature. Avarage in attack and speed.",
-    "image": "https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_2.png",
-    "name": "Eincode Creature #2",
+    "description": "Always happy to see its owner! .",
+    "image": "https://i.ibb.co/7r7nBRT/dog-g60e8a4c28-1280.png",
+    "name": "Doggo #2",
     "attributes": [
       {
         "trait_type": "attack",
@@ -34,4 +34,42 @@
         "value": "50"
       }
     ]
-  }]
+  },{
+    "description": "Smiling but deadly!.",
+    "image": "https://i.ibb.co/Cmck1MN/dog-gba7c96db3-1280.png",
+    "name": "Doggo #3",
+    "attributes": [
+      {
+        "trait_type": "attack",
+        "value": "20"
+      },
+      {
+        "trait_type": "health",
+        "value": "50"
+      },
+      {
+        "trait_type": "speed",
+        "value": "70"
+      }
+    ]
+  },
+  {
+    "description": "Friendly but fierce.",
+    "image": "https://i.ibb.co/nPS0HVt/dog-g771c4d7b5-1280.png",
+    "name": "Doggo #1",
+    "attributes": [
+      {
+        "trait_type": "attack",
+        "value": "80"
+      },
+      {
+        "trait_type": "health",
+        "value": "100"
+      },
+      {
+        "trait_type": "speed",
+        "value": "30"
+      }
+    ]
+  }
+]
