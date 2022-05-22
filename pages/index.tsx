@@ -1,42 +1,46 @@
+import { BaseLayout, Navbar } from '@ui';
+import Image from 'next/image';
+import Shihverse from '../public/images/shih-tzu.png';
+import Link from 'next/link';
 
-/* eslint-disable @next/next/no-img-element */
+// const myLoader = ({ src }) => {
+//   return `/preprocessed-images/${src}`;
+// };
 
-import type { NextPage } from 'next';
-import { BaseLayout, NftList } from '@ui';
+const IndexPage = () => {
+    return (
+        <div className="bg-gradient-to-tr from-red-500 to-purple-400 relative h-screen overflow-hidden">
+            <div className='md:flex md:justify-center lg:justify-left lg:absolute'>
+                <Image src={Shihverse}
+                    // loader={myLoader}
+                    className="sm:relative lg:absolute md:absolute inset-0 w-full md:justify-center h-full object-cover filter brightness-50"
+                    alt="main background image"
+                ></Image>
+            </div>
+            <div className="lg:absolute md:relative inset-0 flex flex-col justify-center items-center w-5/6 max-w-lg mx-auto lg:mr-60 md:-mt-28 text-center overflow-hidden">
 
-import nfts from '../content/meta.json';
-import { NftMetaData } from '@_types/nft';
-import { useWeb3 } from '@providers/web3';
-
-const Home: NextPage = () => {
-  const { ethereum, provider, isLoading, contract } = useWeb3();
-
-
-  return (
-    <BaseLayout>
-
-      {/* {`Is Loading: ${isLoading}`} */}
-
-      <div className="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
-        <div className="absolute inset-0">
-          <div className="bg-white h-1/3 sm:h-2/3" />
+                <h1 className="font-primary font-extrabold text-white text-3xl sm:text-4xl md:text-5xl md:leading-snug">
+                    SHIHverse NFT
+                </h1>
+                <div className="space-y-8">
+                    <h1 className="font-primary font-extrabold text-white text-3xl sm:text-4xl md:text-5xl md:leading-tight">
+                        Easily Mint NFT'S on {' '}
+                        <span className="text-palette-primary">
+                            SHIH.
+                        </span>
+                    </h1>
+                    <p className="font-secondary text-palette-light text-base md:text-lg lg:text-xl">
+                        All your NFT's in one Doggy dogg world!
+                    </p>
+                    <Link href="/marketplace">
+                        <button type="button" className="py-4 px-6  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 w-9/12 rounded-full">
+                            Enter App
+                        </button>
+                    </Link>
+                </div>
+            </div>
         </div>
-        <div className="relative">
-          <div className="text-center">
-            <h2 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">Shih Verse NFTs</h2>
-            <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-              All your NFT's in one doggy dogg world!
-            </p>
-          </div>
-
-          <NftList
-            nfts={nfts as NftMetaData[]}
-          />
-
-        </div>
-      </div>
-    </BaseLayout>
-  )
+    )
 }
 
-export default Home
+export default IndexPage

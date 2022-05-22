@@ -7,7 +7,8 @@ import Link from 'next/link';
 import ActiveLink from '../link';
 
 const navigation = [
-    { name: 'Marketplace', href: '/', current: true },
+    { name: 'Home', href: '/', current: false },
+    { name: 'Marketplace', href: '/marketplace', current: true },
     { name: 'Create', href: '/nft/create', current: false },
 ]
 
