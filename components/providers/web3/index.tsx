@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useState, useContext, FunctionComponent, createContext, ReactNode } from "react";
+import { ethers } from "ethers";
+import { useState, useEffect, useContext, FunctionComponent, createContext, ReactNode } from "react";
 import { Web3State, createDefaultState } from "./utils";
 
 interface BaseLayoutProps {
@@ -15,9 +15,11 @@ const Web3Provider: FunctionComponent<BaseLayoutProps> = ({ children }) => {
     useEffect(() => {
         function initWeb3() {
 
+            const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+
             setWbe3Api({
                 ethereum: window.ethereum,
-                provider: null,
+                provider,
                 contract: null,
                 isLoading: false,
             })
