@@ -36,7 +36,7 @@ export const hookFactory: AccountHookFactory = ({ provider, ethereum }) => () =>
         const accounts = args[0] as string[];
         if (accounts.length === 0) {
             console.error("Please Connect to Web3 Wallet!");
-        } else if (accounts[0]! == swrRes.data) {
+        } else if (accounts[0] !== swrRes.data) {
             alert("Account has changed!");
             console.log(accounts[0]);
         }
