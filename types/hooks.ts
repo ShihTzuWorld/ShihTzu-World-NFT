@@ -3,9 +3,10 @@ import { Contract, providers } from "ethers"
 import { SWRResponse } from "swr";
 
 export type Web3Dependencies = {
-    provider: providers.Web3Provider,
-    contract: Contract,
-    ethereum: MetaMaskInpageProvider
+    provider: providers.Web3Provider;
+    contract: Contract;
+    ethereum: MetaMaskInpageProvider;
+    isLoading: boolean;
 }
 
 export type CryptoHookFactory<D = any, R = any, P = any> = {
