@@ -5,6 +5,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import ActiveLink from '../link';
+import { useAccount } from '@hooks';
 
 const navigation = [
     { name: 'Home', href: '/', current: false },
@@ -17,6 +18,10 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
+    const { data } = useAccount("Some random params");
+
+    console.log(data);
+
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
