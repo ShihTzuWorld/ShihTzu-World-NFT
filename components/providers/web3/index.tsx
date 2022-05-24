@@ -1,3 +1,4 @@
+import { setupHooks } from "@hooks/web3/setupHooks";
 import { ethers } from "ethers";
 import { useState, useEffect, useContext, FunctionComponent, createContext, ReactNode } from "react";
 import { Web3State, createDefaultState, loadContract } from "./utils";
@@ -23,6 +24,7 @@ const Web3Provider: FunctionComponent<BaseLayoutProps> = ({ children }) => {
                 provider,
                 contract: contract,
                 isLoading: false,
+                hooks: setupHooks({ ethereum: window.ethereum, provider, contract })
             })
         }
         initWeb3();
