@@ -20,8 +20,8 @@ const setGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
 }
 
 const removeGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
-    ethereum.removeListener("chainChanged", pageReload);
-    ethereum.removeListener("accountChanged", handleAccount);
+    ethereum?.removeListener("chainChanged", pageReload);
+    ethereum?.removeListener("accountChanged", handleAccount);
 }
 
 const Web3Context = createContext<Web3State>(createDefaultState());
