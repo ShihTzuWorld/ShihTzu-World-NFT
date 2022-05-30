@@ -1,9 +1,14 @@
+import { MetaMaskInpageProvider } from "@metamask/providers";
 import { ethers } from "ethers";
 import { useState, useEffect, useContext, FunctionComponent, createContext, ReactNode } from "react";
 import { Web3State, createDefaultState, loadContract, createWeb3State } from "./utils";
 
 interface BaseLayoutProps {
     children?: ReactNode;
+}
+
+function pageReload() {
+    window.location.reload();
 }
 
 const Web3Context = createContext<Web3State>(createDefaultState());
@@ -18,6 +23,7 @@ const Web3Provider: FunctionComponent<BaseLayoutProps> = ({ children }) => {
                 const provider = new ethers.providers.Web3Provider(window.ethereum as any);
                 const contract = await loadContract("NftMarket", provider)
 
+                setGlobalListeners(window.ethereum);
                 setWbe3Api(createWeb3State({
                     ethereum: window.ethereum,
                     contract,
@@ -37,7 +43,16 @@ const Web3Provider: FunctionComponent<BaseLayoutProps> = ({ children }) => {
         }
 
         initWeb3();
+        return () => removeGlobalListeners(window.ethereum);
     }, [])
+
+    const setGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
+        ethereum.on("chainChanged", pageReload);
+    }
+
+    const removeGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
+        ethereum.removeListener("chainChanged", pageReload);
+    }
 
     return (
         <Web3Context.Provider value={web3Api}>
