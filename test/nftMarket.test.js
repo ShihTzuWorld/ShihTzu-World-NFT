@@ -25,6 +25,19 @@ describe("Mint token", () => {
         const actualTokenURI = await _contract.tokenURI(1);
         assert.equal(actualTokenURI, tokenURI, "token URI is not correctly set");
     })
+
+    it("Should not be possible to create NFT with used token URI", async () => {
+        try {
+            await _contract.mintToken(tokenURI, {
+                from: accounts[0]
+            })
+            
+        } catch (error) {
+             assert(error, "NFT minted with previously used token URI");
+        }
+
+       
+    })
 })
 
 })
