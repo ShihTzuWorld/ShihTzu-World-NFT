@@ -66,17 +66,17 @@ describe("Mint token", () => {
             })
         })
 
-        it("Should unlist the item", () => {
+        it("Should unlist the item", async () => {
             const listedItem = await _contract.getNftItem(1)
             assert.equal(listedItem.isListed, false, "Item is still listed");
         })
 
-        it("Should decrease listed items count", () => {
+        it("Should decrease listed items count", async () => {
             const listedItemsCount = await _contract.listedItemsCount(1)
             assert.equal(listedItemsCount.toNumber(), 0, "Count had not been decreased");
         })
 
-        it("Should change the owner", () => {
+        it("Should change the owner", async () => {
             const currentOwner = await _contract.ownerOf(1)
             assert.equal(currentOwner, accounts[1], "Item is still listed");
         })
