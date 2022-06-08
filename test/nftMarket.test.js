@@ -72,7 +72,7 @@ describe("Mint token", () => {
         })
 
         it("Should decrease listed items count", async () => {
-            const listedItemsCount = await _contract.listedItemsCount(1)
+            const listedItemsCount = await _contract.listedItemsCount()
             assert.equal(listedItemsCount.toNumber(), 0, "Count had not been decreased");
         })
 
