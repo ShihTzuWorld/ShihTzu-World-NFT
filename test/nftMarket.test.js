@@ -44,6 +44,14 @@ describe("Mint token", () => {
         const listedItemCount = await _contract.listedItemsCount();
         assert.equal(listedItemCount, 1, "Listed items count is not 1");
     })
+
+    it("Should have created NFT item", async () => {
+        const nftItem = await _contract.getNftItem(1);
+        assert.equal(nftItem.tokenId, 1, "Token ID is not 1");
+        assert.equal(nftItem.price, _nftPrice, "NFT price is not correct");
+        assert.equal(nftItem.creator, accounts[0], "Creator is not account 0");
+        assert.equal(nftItem.isListed, true, "Token is not listed");
+    })
 })
 
 })
