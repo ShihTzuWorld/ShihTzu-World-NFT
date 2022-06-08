@@ -1,7 +1,9 @@
 const NftMarket = artifacts.require("NftMarket");
+const {ethers} = require("ethers");
+const { list } = require("postcss");
 
 contract("NftMarket", accounts => {
-const {ethers} = require("ethers");
+
 
 let _contract = null;
 let _nftPrice = ethers.utils.parseEther("0.3").toString();
@@ -55,5 +57,29 @@ describe("Mint token", () => {
         assert.equal(nftItem.isListed, true, "Token is not listed");
     })
 })
+
+    describe("Buy NFT", () => {
+        before(async () => {
+            await _contract.buyNft(1, {
+                from: accounts[1],
+                value: _nftPrice
+            })
+        })
+
+        it("Should unlist the item", () => {
+            const listedItem = await _contract.getNftItem(1)
+            assert.equal(listedItem.isListed, false, "Item is still listed");
+        })
+
+        it("Should decrease listed items count", () => {
+            const listedItemsCount = await _contract.listedItemsCount(1)
+            assert.equal(listedItemsCount.toNumber(), 0, "Count had not been decreased");
+        })
+
+        it("Should change the owner", () => {
+            const currentOwner = await _contract.ownerOf(1)
+            assert.equal(currentOwner, accounts[1], "Item is still listed");
+        })
+    })
 
 })
