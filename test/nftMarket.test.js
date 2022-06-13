@@ -142,4 +142,27 @@ describe("Mint token", () => {
         })
     })
 
+    describe("Burn token", () => {
+        const tokenURI = "https://test-json3.com";
+        before(async () => {
+            await _contract.mintToken(tokenURI, _nftPrice, {
+                from: accounts[2],
+                value: _listingPrice
+            })
+        })
+
+        it("Account [2] should have 1 owned NFT", async () => {
+            const ownedNfts = await _contract.getOwnedNfts({from: accounts[2]});
+            assert.equal(ownedNfts[0].tokenId, 3, "Nft has a wrong ID");
+        })
+
+        it("Account [2] should own 0 NFTs", async () => {
+            await _contract.burnToken(3, {from: accounts[2]});
+
+            const ownedNfts = await _contract.getOwnedNfts({from: accounts[2]});
+            assert.equal(ownedNfts.length, 0, "Invalid lenght of tokens");
+        })
+
+    })
+
 })
