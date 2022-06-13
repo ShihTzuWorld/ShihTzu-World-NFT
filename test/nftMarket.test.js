@@ -67,17 +67,17 @@ describe("Mint token", () => {
         })
 
         it("Should unlist the item", async () => {
-            const listedItem = await _contract.getNftItem(1)
+            const listedItem = await _contract.getNftItem(1);
             assert.equal(listedItem.isListed, false, "Item is still listed");
         })
 
         it("Should decrease listed items count", async () => {
-            const listedItemsCount = await _contract.listedItemsCount()
+            const listedItemsCount = await _contract.listedItemsCount();
             assert.equal(listedItemsCount.toNumber(), 0, "Count had not been decreased");
         })
 
         it("Should change the owner", async () => {
-            const currentOwner = await _contract.ownerOf(1)
+            const currentOwner = await _contract.ownerOf(1);
             assert.equal(currentOwner, accounts[1], "Item is still listed");
         })
     })
@@ -92,7 +92,7 @@ describe("Mint token", () => {
         })
 
         it("Should have 2 NFT's created", async () => {
-            const totalSupply = await _contract.totalSupply()
+            const totalSupply = await _contract.totalSupply();
             assert.equal(totalSupply.toNumber(), 2, "Total supply of token is not correct");
         })
 
@@ -102,6 +102,11 @@ describe("Mint token", () => {
 
             assert.equal(nftId1.toNumber(), 1, "NFT id is wrong");
             assert.equal(nftId2.toNumber(), 2, "NFT id is wrong");
+        })
+
+        it("Should have 1 listed NFT", async () => {
+            const allNfts = await _contract.getAllNftsOnSale();
+            assert.equal(allNfts[0].tokenId, 2, "Nft has a wrong ID");
         })
     })
 
