@@ -108,6 +108,18 @@ describe("Mint token", () => {
             const allNfts = await _contract.getAllNftsOnSale();
             assert.equal(allNfts[0].tokenId, 2, "Nft has a wrong ID");
         })
+
+        it("Account [1] should have 1 owned NFT", async () => {
+            const ownedNfts = await _contract.getOwnedNfts({from: accounts[1]});
+
+            assert.equal(ownedNfts[0].tokenId, 1, "Nft has a wrong ID");
+        })
+
+        it("Account [0] should have 1 owned NFT", async () => {
+            const ownedNfts = await _contract.getOwnedNfts({from: accounts[0]});
+
+            assert.equal(ownedNfts[0].tokenId, 2, "Nft has a wrong ID");
+        })
     })
 
 })
