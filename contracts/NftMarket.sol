@@ -3,8 +3,9 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract NftMarket is ERC721URIStorage {
+contract NftMarket is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     struct NftItem {
@@ -38,6 +39,11 @@ contract NftMarket is ERC721URIStorage {
     );
 
     constructor() ERC721("Shih-VerseNFT", "SHIHNFT") {}
+
+    function setListingPrice(uint256 newPrice) external onlyOwner {
+        require(newPrice > 0, "Price must be atleast 1 wei");
+        listingPrice = newPrice;
+    }
 
     function getNftItem(uint256 tokenId) public view returns (NftItem memory) {
         return _idToNftItem[tokenId];
@@ -100,10 +106,6 @@ contract NftMarket is ERC721URIStorage {
         return items;
     }
 
-    function burnToken(uint256 tokenId) public {
-        _burn(tokenId);
-    }
-
     function mintToken(string memory tokenURI, uint256 price)
         public
         payable
@@ -140,6 +142,25 @@ contract NftMarket is ERC721URIStorage {
 
         _transfer(owner, msg.sender, tokenId);
         payable(owner).transfer(msg.value);
+    }
+
+    function placeNftOnSale(uint256 tokenId, uint256 newPrice) public payable {
+        require(
+            ERC721.ownerOf(tokenId) == msg.sender,
+            "You do not own this NFT"
+        );
+        require(
+            _idToNftItem[tokenId].isListed == false,
+            "Item already on sale"
+        );
+        require(
+            msg.value == listingPrice,
+            "Price must to equal to listing price"
+        );
+
+        _idToNftItem[tokenId].isListed = true;
+        _idToNftItem[tokenId].price = newPrice;
+        _listedItems.increment();
     }
 
     function _createNftItem(uint256 tokenId, uint256 price) private {
