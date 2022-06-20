@@ -1,0 +1,19 @@
+{
+    "description": "Cute but deadly.",
+    "image": "https://gateway.pinata.cloud/ipfs/QmZeostZcXGygaFbvy3FZiv6WZT5pmiuX1dNoQceZ2FpwW",
+    "name": "Eincode Creature #1",
+    "attributes": [
+      {
+        "trait_type": "attack",
+        "value": "50"
+      },
+      {
+        "trait_type": "health",
+        "value": "90"
+      },
+      {
+        "trait_type": "speed",
+        "value": "90"
+      }
+    ]
+  }
