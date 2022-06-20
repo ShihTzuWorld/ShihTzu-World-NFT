@@ -1,4 +1,5 @@
 import { MetaMaskInpageProvider } from "@metamask/providers";
+import { NftMarketContract } from "@_types/nftMarketContract";
 import { ethers } from "ethers";
 import { useState, useEffect, useContext, FunctionComponent, createContext, ReactNode } from "react";
 import { Web3State, createDefaultState, loadContract, createWeb3State } from "./utils";
@@ -39,7 +40,7 @@ const Web3Provider: FunctionComponent<BaseLayoutProps> = ({ children }) => {
                 setGlobalListeners(window.ethereum);
                 setWbe3Api(createWeb3State({
                     ethereum: window.ethereum,
-                    contract,
+                    contract: contract as unknown as NftMarketContract,
                     provider,
                     isLoading: false
                 }))
