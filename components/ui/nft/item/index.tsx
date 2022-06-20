@@ -6,11 +6,13 @@ import { Nft } from "../../../../types/nft"
 
 type NftItemProps = {
     item: Nft;
+    buyNft: (tokenId: number, value: number) => Promise<void>;
+
 }
 
 
 
-const NftItem: FunctionComponent<NftItemProps> = ({ item }) => {
+const NftItem: FunctionComponent<NftItemProps> = ({ item, buyNft }) => {
     return (
         <>
             <div className="flex-shrink-0">
@@ -36,7 +38,7 @@ const NftItem: FunctionComponent<NftItemProps> = ({ item }) => {
                             <dt className="order-2 text-sm font-medium text-gray-500">Price</dt>
                             <dd className="order-1 text-xl font-extrabold text-indigo-600">
                                 <div className="flex justify-center items-center">
-                                    100
+                                    {item.price}
                                     <img className="h-6" src="/images/small-eth.webp" alt="ether icon" />
                                 </div>
                             </dd>
@@ -54,6 +56,9 @@ const NftItem: FunctionComponent<NftItemProps> = ({ item }) => {
                 </div>
                 <div>
                     <button
+                        onClick={() => {
+                            buyNft(item.tokenId, item.price);
+                        }}
                         type="button"
                         className="disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none disabled:cursor-not-allowed mr-2 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
