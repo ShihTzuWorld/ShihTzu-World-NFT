@@ -6,7 +6,6 @@ import { BaseLayout, NftList } from '@ui';
 
 const Home: NextPage = () => {
 
-
   return (
     <BaseLayout>
 

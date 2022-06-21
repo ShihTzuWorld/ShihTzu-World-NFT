@@ -39,11 +39,14 @@ export const hookFactory: ListedNftsHookFactory = ({ contract }) => () => {
 
     const buyNft = async (tokenId: number, value: number) => {
         try {
-            await contract?.buyNft(
+            const result = await contract?.buyNft(
                 tokenId, {
                 value: ethers.utils.parseEther(value.toString())
             }
             )
+
+            await result?.wait;
+
             alert("You have purchased NFT. See Profile page.")
         } catch (e: any) {
             console.error(e.message)
