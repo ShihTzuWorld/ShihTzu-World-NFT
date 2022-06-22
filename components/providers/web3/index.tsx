@@ -40,7 +40,7 @@ const Web3Provider: FunctionComponent<BaseLayoutProps> = ({ children }) => {
                 const signer = provider.getSigner();
                 const signedContract = contract.connect(signer);
 
-                setGlobalListeners(window.ethereum);
+                setTimeout(() => setGlobalListeners(window.ethereum), 500);
                 setWbe3Api(createWeb3State({
                     ethereum: window.ethereum,
                     contract: signedContract as unknown as NftMarketContract,
