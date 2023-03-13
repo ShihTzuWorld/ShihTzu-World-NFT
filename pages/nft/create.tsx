@@ -26,6 +26,45 @@ const NftCreate: NextPage = () => {
         ]
     });
 
+    const getSignedData = async () => {
+        const messageToSign = await axios.get("/api/verify");
+        const accounts = await ethereum?.request({ method: "eth_requestAccounts" }) as string[];
+        const account = accounts[0];
+
+        const signedData = await ethereum?.request({
+            method: "personal_sign",
+            params: [JSON.stringify(messageToSign.data), account, messageToSign.data.id]
+        })
+
+        return { signedData, account };
+    }
+
+    const handleImage = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) {
+            console.error("Select a file!");
+            return;
+        }
+
+        const file = e.target.files[0];
+        const buffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(buffer);
+
+        try {
+            const { signedData, account } = await getSignedData();
+            await axios.post("/api/verify-image", {
+                address: account,
+                signature: signedData,
+                bytes,
+                contentType: file.type,
+                fileName: file.name.replace(/\.[^/.]+$/, "")
+            });
+        }
+        catch (e: any) {
+            console.error(e.message)
+        }
+
+    }
+
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setNftMeta({ ...nftMeta, [name]: value });
@@ -44,16 +83,14 @@ const NftCreate: NextPage = () => {
 
     const createNft = async () => {
         try {
-            const messageToSign = await axios.get("/api/verify");
-            const accounts = await ethereum?.request({ method: "eth_requestAccounts" }) as string[];
-            const account = accounts[0];
+            const { signedData, account } = await getSignedData();
 
-            const signedData = await ethereum?.request({
-                method: "personal_sign",
-                params: [JSON.stringify(messageToSign.data), account, messageToSign.data.id]
+            await axios.post("/api/verify", {
+                address: account,
+                signature: signedData,
+                nft: nftMeta
             })
 
-            console.log(signedData);
         } catch (e: any) {
             console.error(e.message);
         }
@@ -231,6 +268,7 @@ const NftCreate: NextPage = () => {
                                                             >
                                                                 <span>Upload a file</span>
                                                                 <input
+                                                                    onChange={handleImage}
                                                                     id="file-upload"
                                                                     name="file-upload"
                                                                     type="file"

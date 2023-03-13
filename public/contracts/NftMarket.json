@@ -42139,12 +42139,12 @@
         }
       },
       "links": {},
-      "address": "0x7bd25Cf801a4EE2b00743bE1492B8238a211aaAC",
-      "transactionHash": "0x2d3347d7393edbff939b60b72460835d80a8bf00724ecf9036c79f7d95b65d6a"
+      "address": "0x40f344D211A3655991678597713c015cF5e169F3",
+      "transactionHash": "0xdd77eeff3565f3505b4f090cbf8579f7ec2f57a75bcd0c0316b0fb94af8688a6"
     }
   },
-  "schemaVersion": "3.4.4",
-  "updatedAt": "2022-06-21T12:35:05.734Z",
+  "schemaVersion": "3.4.10",
+  "updatedAt": "2023-03-04T12:49:14.687Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
