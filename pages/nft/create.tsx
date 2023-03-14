@@ -8,12 +8,15 @@ import Link from 'next/link'
 import { NftMetaData, PinataRes } from '@_types/nft';
 import axios from 'axios';
 import { useWeb3 } from '@providers/web3';
+import { ethers } from 'ethers';
 
+const ALLOWED_FIELDS = ["name", "description", "image", "attributes"]
 
 const NftCreate: NextPage = () => {
-    const { ethereum } = useWeb3()
+    const { ethereum, contract } = useWeb3()
     const [nftURI, setNftURI] = useState("");
     const [hasURI, setHasURI] = useState(false);
+    const [price, setPrice] = useState("");
 
     const [NftMetaData, setNftMetaData] = useState<NftMetaData>({
         name: "",
@@ -88,17 +91,50 @@ const NftCreate: NextPage = () => {
         })
     }
 
-    const createNft = async () => {
+    const uploadMetaData = async () => {
         try {
             const { signedData, account } = await getSignedData();
 
-            await axios.post("/api/verify", {
+            const res = await axios.post("/api/verify", {
                 address: account,
                 signature: signedData,
                 nft: NftMetaData
             })
 
+            const data = res.data as PinataRes;
+            setNftURI(`${process.env.NEXT_PUBLIC_PINATA_DOMAIN}/ipfs/${data.IpfsHash}`);
+
         } catch (e: any) {
+            console.error(e.message);
+        }
+    }
+
+    const createNft = async () => {
+        try {
+            const nftRes = await axios.get(nftURI, {
+                headers: { "Accept": "text/plain" }
+            });
+            const content = nftRes.data;
+
+            Object.keys(content).forEach(
+                key => {
+                    if (!ALLOWED_FIELDS.includes(key)) {
+                        throw new Error("Invalid JSON structure!")
+
+                    }
+                }
+            )
+            const tx = await contract?.mintToken(
+                nftURI,
+                ethers.utils.parseEther(price), {
+                value: ethers.utils.parseEther(0.025.toString())
+            }
+            );
+
+            await tx?.wait();
+            alert("Nft was created!")
+        }
+        catch (e: any) {
             console.error(e.message);
         }
     }
@@ -177,6 +213,8 @@ const NftCreate: NextPage = () => {
                                             </label>
                                             <div className="mt-1 flex rounded-md shadow-sm">
                                                 <input
+                                                    onChange={(e) => setPrice(e.target.value)}
+                                                    value={price}
                                                     type="number"
                                                     name="price"
                                                     id="price"
@@ -188,6 +226,7 @@ const NftCreate: NextPage = () => {
                                     </div>
                                     <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                                         <button
+                                            onClick={createNft}
                                             type="button"
                                             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         >
@@ -312,7 +351,7 @@ const NftCreate: NextPage = () => {
                                     </div>
                                     <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                                         <button
-                                            onClick={createNft}
+                                            onClick={uploadMetaData}
                                             type="button"
                                             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         >
