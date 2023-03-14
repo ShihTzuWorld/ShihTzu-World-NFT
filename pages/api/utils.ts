@@ -18,6 +18,7 @@ export const contractAddress = contract["networks"][targetNetwork]["address"];
 
 export const pinataApiKey = process.env.PINATA_API_KEY as string;
 export const pinataSecretApiKey = process.env.PINATA_SECRET_API_KEY as string;
+export const pinataJWTKey = process.env.PINATA_JWT_KEY as string;
 
 
 export function withSession(handler: any) {
@@ -40,8 +41,6 @@ export const addressCheckMiddleware = async (req: NextApiRequest & { session: Se
             provider
         ) as unknown as NftMarketContract;
 
-        console.log(message);
-
         let nonce: string | Buffer =
             "\x19Ethereum Signed Message:\n" +
             JSON.stringify(message).length +
@@ -52,8 +51,6 @@ export const addressCheckMiddleware = async (req: NextApiRequest & { session: Se
         const pubKey = util.ecrecover(util.toBuffer(nonce), v, r, s);
         const addrBuffer = util.pubToAddress(pubKey);
         const address = util.bufferToHex(addrBuffer);
-
-        console.log(address);
 
         if (address === req.body.address) {
             resolve("Correct Address");

@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from 'react';
 import { BaseLayout } from '@ui'
 import { Switch } from '@headlessui/react'
 import Link from 'next/link'
-import { NftMetaData } from '@_types/nft';
+import { NftMetaData, PinataRes } from '@_types/nft';
 import axios from 'axios';
 import { useWeb3 } from '@providers/web3';
 
@@ -15,7 +15,7 @@ const NftCreate: NextPage = () => {
     const [nftURI, setNftURI] = useState("");
     const [hasURI, setHasURI] = useState(false);
 
-    const [nftMeta, setNftMeta] = useState<NftMetaData>({
+    const [NftMetaData, setNftMetaData] = useState<NftMetaData>({
         name: "",
         description: "",
         image: "",
@@ -40,7 +40,7 @@ const NftCreate: NextPage = () => {
     }
 
     const handleImage = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files) {
+        if (!e.target.files || e.target.files.length === 0) {
             console.error("Select a file!");
             return;
         }
@@ -51,12 +51,19 @@ const NftCreate: NextPage = () => {
 
         try {
             const { signedData, account } = await getSignedData();
-            await axios.post("/api/verify-image", {
+            const res = await axios.post("/api/verify-image", {
                 address: account,
                 signature: signedData,
                 bytes,
                 contentType: file.type,
                 fileName: file.name.replace(/\.[^/.]+$/, "")
+            });
+
+            const data = res.data as PinataRes;
+
+            setNftMetaData({
+                ...NftMetaData,
+                image: `${process.env.NEXT_PUBLIC_PINATA_DOMAIN}/ipfs/${data.IpfsHash}`
             });
         }
         catch (e: any) {
@@ -67,17 +74,17 @@ const NftCreate: NextPage = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setNftMeta({ ...nftMeta, [name]: value });
+        setNftMetaData({ ...NftMetaData, [name]: value });
     }
 
     const handleAttributeChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        const attributeIndex = nftMeta.attributes.findIndex(attr => attr.trait_type === name);
+        const attributeIndex = NftMetaData.attributes.findIndex(attr => attr.trait_type === name);
 
-        nftMeta.attributes[attributeIndex].value = value;
-        setNftMeta({
-            ...nftMeta,
-            attributes: nftMeta.attributes
+        NftMetaData.attributes[attributeIndex].value = value;
+        setNftMetaData({
+            ...NftMetaData,
+            attributes: NftMetaData.attributes
         })
     }
 
@@ -88,7 +95,7 @@ const NftCreate: NextPage = () => {
             await axios.post("/api/verify", {
                 address: account,
                 signature: signedData,
-                nft: nftMeta
+                nft: NftMetaData
             })
 
         } catch (e: any) {
@@ -211,7 +218,7 @@ const NftCreate: NextPage = () => {
                                             </label>
                                             <div className="mt-1 flex rounded-md shadow-sm">
                                                 <input
-                                                    value={nftMeta.name}
+                                                    value={NftMetaData.name}
                                                     onChange={handleChange}
                                                     type="text"
                                                     name="name"
@@ -227,7 +234,7 @@ const NftCreate: NextPage = () => {
                                             </label>
                                             <div className="mt-1">
                                                 <textarea
-                                                    value={nftMeta.description}
+                                                    value={NftMetaData.description}
                                                     onChange={handleChange}
                                                     id="description"
                                                     name="description"
@@ -241,8 +248,8 @@ const NftCreate: NextPage = () => {
                                             </p>
                                         </div>
                                         {/* Has Image? */}
-                                        {false ?
-                                            <img src="https://eincode.mypinata.cloud/ipfs/QmaQYCrX9Fg2kGijqapTYgpMXV7QPPzMwGrSRfV9TvTsfM/Creature_1.png" alt="" className="h-40" /> :
+                                        {NftMetaData.image ?
+                                            <img src={NftMetaData.image} alt="" className="h-40" /> :
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700">Image</label>
                                                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
@@ -283,7 +290,7 @@ const NftCreate: NextPage = () => {
                                             </div>
                                         }
                                         <div className="grid grid-cols-6 gap-6">
-                                            {nftMeta.attributes.map(attribute =>
+                                            {NftMetaData.attributes.map(attribute =>
                                                 <div key={attribute.trait_type} className="col-span-6 sm:col-span-6 lg:col-span-2">
                                                     <label htmlFor={attribute.trait_type} className="block text-sm font-medium text-gray-700">
                                                         {attribute.trait_type}
