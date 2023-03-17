@@ -1,13 +1,17 @@
-import { BaseLayout, Navbar } from '@ui';
+import { BaseLayout, Navbar, NftList } from '@ui';
 import Image from 'next/image';
 import Shihverse from '../public/images/shih-tzu.png';
 import Link from 'next/link';
+import { ExclamationIcon } from '@heroicons/react/solid';
+import { useNetwork } from '@hooks/web3';
+
 
 // const myLoader = ({ src }) => {
 //   return `/preprocessed-images/${src}`;
 // };
 
 const IndexPage = () => {
+    const { network } = useNetwork();
     return (
         <div className="bg-gradient-to-tr from-red-500 to-purple-400 relative h-screen overflow-hidden">
             <div className='md:flex md:justify-center lg:justify-left'>
@@ -39,6 +43,28 @@ const IndexPage = () => {
                             </button>
                         </Link>
                     </div>
+                    {network.isConnectedToNetwork ?
+                        <NftList /> :
+                        <div className="rounded-md bg-yellow-50 p-4 mt-10">
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <ExclamationIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                                </div>
+                                <div className="ml-3">
+                                    <h3 className="text-sm font-medium text-yellow-800">Attention needed</h3>
+                                    <div className="mt-2 text-sm text-yellow-700">
+                                        <p>
+                                            {network.isLoading ?
+                                                "Loading..." :
+                                                `Connect to ${network.targetNetwork}`
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>

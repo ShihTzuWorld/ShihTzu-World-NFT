@@ -6,7 +6,7 @@ import { NftMarketContract } from "@_types/nftMarketContract";
 import * as util from "ethereumjs-util";
 
 const NETWORKS = {
-    "5777": "Ganache"
+    "5777": "Ganache",
 }
 
 type NETWORK = typeof NETWORKS;
