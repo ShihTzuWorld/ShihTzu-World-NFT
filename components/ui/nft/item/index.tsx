@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { FunctionComponent } from "react";
-import { NftMetaData, Nft } from "../../../../types/nft";
+import { Nft } from "../../../../types/nft";
 
 type NftItemProps = {
     item: Nft;
-    buyNft: (token: number, value: number) => Promise<void>;
+    buyNft: (tokenId: number, value: number) => Promise<void>;
 }
 
 function shortifyAddress(address: string) {
