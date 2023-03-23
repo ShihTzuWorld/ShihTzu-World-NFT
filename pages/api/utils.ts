@@ -8,7 +8,6 @@ import * as util from "ethereumjs-util";
 const NETWORKS = {
     "5777": "Ganache",
     "5": "Goerli",
-    "56": "Binance Smart Chain"
 }
 
 type NETWORK = typeof NETWORKS;
