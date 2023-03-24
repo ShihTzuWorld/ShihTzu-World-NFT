@@ -6,3 +6,14 @@
     border-color: var(--toastify-spinner-color-empty-area) !important;
     border-right-color: var(--toastify-spinner-color) !important;
 }
+
+.home-box {
+    margin-top: -150px
+}
+
+.card-nft-home {
+  box-shadow: 0 0 10px 5px #48abe0,
+              0 0 20px 7px #ebecca,
+              0 0 25px 20px #8a2be2,
+              0 0 30px 25px #00A36C;
+}
