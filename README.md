@@ -5,7 +5,7 @@ To run the repo - git clone to new reposiory
 Npm install the dependancies
 
 requires a .env file for production  as below -
-
+<br></br>
 NEXT_PUBLIC_NETWORK_ID=5
 NEXT_PUBLIC_TARGET_CHAIN_ID=5
 NEXT_PUBLIC_PINATA_DOMAIN=https://gateway.pinata.cloud
